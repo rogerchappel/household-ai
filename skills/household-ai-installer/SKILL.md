@@ -118,3 +118,6 @@ telemetry, boot, and persistent-data changes always require explicit approval.
 At completion, verify the inference API, web interface, permitted users, web
 search when enabled, restart recovery, backup path, and rollback procedure.
 Return a plain-English handoff plus a technical review pack.
+
+For the supported control-plane path, read `docs/deployment.md` completely and
+validate `deploy/compose.yml` before requesting approval to start services.

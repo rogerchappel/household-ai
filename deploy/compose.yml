@@ -1,0 +1,119 @@
+name: household-ai
+
+services:
+  search-vpn:
+    image: ghcr.io/qdm12/gluetun:v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+    container_name: household-ai-search-vpn
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_SERVICE_PROVIDER: ${VPN_SERVICE_PROVIDER:?set VPN_SERVICE_PROVIDER in .env}
+      VPN_TYPE: ${VPN_TYPE:?set VPN_TYPE in .env}
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY:?set WIREGUARD_PRIVATE_KEY in .env}
+      WIREGUARD_ADDRESSES: ${WIREGUARD_ADDRESSES:?set WIREGUARD_ADDRESSES in .env}
+      SERVER_COUNTRIES: ${VPN_SERVER_COUNTRIES:?set VPN_SERVER_COUNTRIES in .env}
+      FIREWALL_INPUT_PORTS: "8080,8888"
+      HTTPPROXY: "on"
+      TZ: ${TZ:-Etc/UTC}
+      UPDATER_PERIOD: 480h
+    volumes:
+      - search-vpn-data:/gluetun
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "2"
+
+  searxng:
+    image: ghcr.io/searxng/searxng:2026.9.11-61d660276@sha256:a93b665d10ce0675e8d2124187943111399ba69f384228c51b4cd21fdceda0bc
+    container_name: household-ai-search
+    restart: unless-stopped
+    network_mode: "service:search-vpn"
+    depends_on:
+      search-vpn:
+        condition: service_healthy
+    environment:
+      SEARXNG_BASE_URL: http://search-vpn:8080/
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
+    volumes:
+      - ./searxng-settings.yml:/etc/searxng/settings.yml:ro
+      - search-cache:/var/cache/searxng
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=5).read(1)"]
+      interval: 10s
+      timeout: 6s
+      retries: 12
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "2"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.11.3@sha256:41daa0cf2561a5d4c8d1ff31ee2a98d93ab4d3ac2605cac69366ff6a3374a933
+    container_name: household-ai-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      searxng:
+        condition: service_healthy
+    environment:
+      WEBUI_NAME: Household AI
+      WEBUI_URL: ${WEBUI_URL:?set WEBUI_URL in .env}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?set WEBUI_SECRET_KEY in .env}
+      ENABLE_LOGIN_FORM: "true"
+      ENABLE_SIGNUP: ${ENABLE_SIGNUP:-true}
+      ENABLE_OLLAMA_API: "false"
+      ENABLE_OPENAI_API: "true"
+      OPENAI_API_BASE_URL: ${INFERENCE_API_BASE_URL:?set INFERENCE_API_BASE_URL in .env}
+      OPENAI_API_KEY: ${INFERENCE_API_KEY:?set INFERENCE_API_KEY in .env}
+      DEFAULT_MODELS: ${DEFAULT_MODELS:-}
+      ENABLE_WEB_SEARCH: "true"
+      WEB_SEARCH_ENGINE: searxng
+      WEB_SEARCH_RESULT_COUNT: "3"
+      CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
+      WEB_SEARCH_CONCURRENT_REQUESTS: "4"
+      WEB_LOADER_CONCURRENT_REQUESTS: "4"
+      SEARXNG_QUERY_URL: http://search-vpn:8080/search?q=<query>
+      WEB_SEARCH_TRUST_ENV: "true"
+      http_proxy: http://search-vpn:8888
+      https_proxy: http://search-vpn:8888
+      no_proxy: 127.0.0.1,localhost,search-vpn,searxng,host.docker.internal
+      DEFAULT_MODEL_METADATA: '{"capabilities":{"web_search":true,"citations":true,"status_updates":true},"defaultFeatureIds":["web_search"]}'
+      ENABLE_EVALUATION_ARENA_MODELS: "false"
+      ENABLE_ADMIN_CHAT_ACCESS: "false"
+      ENABLE_ADMIN_EXPORT: "false"
+      ENABLE_COMMUNITY_SHARING: "false"
+      ENABLE_REALTIME_CHAT_SAVE: "false"
+      DO_NOT_TRACK: "true"
+      SCARF_NO_ANALYTICS: "true"
+      ANONYMIZED_TELEMETRY: "false"
+    volumes:
+      - webui-data:/app/backend/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "3"
+
+volumes:
+  search-vpn-data:
+    name: household-ai-search-vpn-data
+  search-cache:
+    name: household-ai-search-cache
+  webui-data:
+    name: household-ai-webui-data

@@ -11,11 +11,15 @@ required_files=(
   docs/benchmarking.md
   docs/evaluations.md
   docs/hardware-discovery.md
+  docs/deployment.md
   benchmarks/benchmark-llama.sh
   benchmarks/benchmark-mlx.sh
+  deploy/compose.yml
+  deploy/searxng-settings.yml
   evaluations/run_eval.py
   evaluations/validate_eval.py
   hardware/inventory.py
+  scripts/validate-deployment.sh
   skills/household-ai-installer/SKILL.md
 )
 for path in "${required_files[@]}"; do
@@ -34,6 +38,7 @@ python3 -m py_compile \
   hardware/inventory.py
 python3 evaluations/validate_eval.py evals/independent-judgment.jsonl
 python3 evaluations/validate_eval.py evals/coding.jsonl
+bash scripts/validate-deployment.sh
 
 python3 - <<'PY'
 from pathlib import Path
