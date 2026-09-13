@@ -55,6 +55,28 @@ This repository is being assembled from a working private deployment. The first
 milestone is a reproducible benchmark and a documented deployment for the two
 tested platforms. It is not yet a one-command installer.
 
+## First useful commands
+
+Collect a privacy-safe local inventory:
+
+```bash
+python3 hardware/inventory.py --label apple-01
+```
+
+Inspect the benchmark and evaluation workflows before downloading models:
+
+```bash
+benchmarks/benchmark-llama.sh --help
+benchmarks/benchmark-mlx.sh --help
+python3 evaluations/run_eval.py --help
+```
+
+Validate the repository:
+
+```bash
+bash scripts/validate-repository.sh
+```
+
 ## Repository layout
 
 ```text
