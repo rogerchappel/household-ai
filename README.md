@@ -60,6 +60,8 @@ tested platforms. It is not yet a one-command installer.
 ```text
 benchmarks/   Reproducible performance runners
 docs/         Scope, architecture, setup, and operating guidance
+evals/        Synthetic chat and coding evaluation cases
+evaluations/  Validation and local evaluation runners
 examples/     Sanitised inventories and benchmark reports
 skills/       Agent-assisted installation workflow
 ```
