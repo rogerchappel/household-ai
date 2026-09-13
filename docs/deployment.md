@@ -4,6 +4,10 @@ This deployment provides the multi-user web interface and private web search.
 It connects to an OpenAI-compatible inference server selected and verified by
 the benchmark workflow.
 
+Before configuring the control plane, use the
+[model promotion workflow](model-promotion.md) to turn the accepted benchmark
+configuration into a persistent, authenticated, tailnet-only endpoint.
+
 The supported v0.1 control-plane host is Ubuntu Linux. Open WebUI is bound only
 to host loopback and may be shared privately with Tailscale Serve. No router port
 forwarding or public ingress is required.
@@ -17,9 +21,9 @@ Household browser
       v
 Open WebUI on 127.0.0.1:3000
       |                         |
-      | OpenAI-compatible API   | search and page loading
+      | tailnet HTTPS API        | search and page loading
       v                         v
-Local inference server      Gluetun VPN
+Promoted model service      Gluetun VPN
                                 |
                                 v
                               SearXNG
@@ -33,7 +37,7 @@ are excluded from that proxy.
 ## Prerequisites
 
 - a supported Ubuntu host with Docker and Docker Compose;
-- a tested OpenAI-compatible inference server and API key;
+- a promoted OpenAI-compatible inference endpoint and dedicated Open WebUI key;
 - a WireGuard-capable VPN account supported by Gluetun;
 - Tailscale installed and connected when private remote access is required; and
 - a verified backup before replacing an existing chat deployment.
@@ -55,10 +59,10 @@ the local inference API key. Obtain the WireGuard private key and address from
 the VPN provider's manual configuration. Never use an ordinary account password
 as a WireGuard key, and never paste the completed file into an issue or chat.
 
-`INFERENCE_API_BASE_URL` defaults to a service on the Docker host. On Linux, the
-inference server must listen on an address reachable through the Docker bridge,
-not only on host loopback. Bind it to the bridge or another restricted private
-interface, require its API key, and do not expose it on every network interface.
+Set `INFERENCE_API_BASE_URL` to the promoted model's tailnet-only HTTPS endpoint.
+This remains stable whether the model is on the control-plane host or another
+supported device. Require a dedicated API key and verify the endpoint from
+inside the Open WebUI container before starting the control plane.
 
 ## Validate before starting
 
