@@ -16,6 +16,7 @@ semantic versioning once versioned releases begin.
   VPN-routed search and Tailscale access.
 - An agent-assisted installer skill with explicit safety boundaries.
 - StackForge-derived contribution, security, governance, and planning files.
+- An end-to-end model promotion workflow with persistent llama.cpp, Tailscale,
+  Open WebUI, and OpenCode configuration templates.
 
 No versioned release has been published yet.
-
