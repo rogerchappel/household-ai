@@ -7,6 +7,14 @@ cd "$repo_dir"
 required_files=(
   README.md
   AGENTS.md
+  CHANGELOG.md
+  CODE_OF_CONDUCT.md
+  CONTRIBUTING.md
+  ROADMAP.md
+  SECURITY.md
+  .github/pull_request_template.md
+  docs/README.md
+  docs/stackforge.md
   docs/v0.1-scope.md
   docs/benchmarking.md
   docs/evaluations.md
