@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "household/household-primary",
+  "provider": {
+    "household": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Household AI",
+      "options": {
+        "baseURL": "https://MODEL_HOST.TAILNET_NAME.ts.net:8443/v1"
+      },
+      "models": {
+        "household-primary": {
+          "name": "Household primary model",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        }
+      }
+    }
+  }
+}
