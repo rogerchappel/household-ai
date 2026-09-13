@@ -77,10 +77,15 @@ Validate the repository:
 bash scripts/validate-repository.sh
 ```
 
+After a model and inference runtime have been selected, follow the
+[version 0.1 deployment guide](docs/deployment.md) to configure the private
+multi-user web interface and VPN-routed search.
+
 ## Repository layout
 
 ```text
 benchmarks/   Reproducible performance runners
+deploy/       Sanitised Open WebUI and private-search control plane
 docs/         Scope, architecture, setup, and operating guidance
 evals/        Synthetic chat and coding evaluation cases
 evaluations/  Validation and local evaluation runners
