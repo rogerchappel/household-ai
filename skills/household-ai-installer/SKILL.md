@@ -15,8 +15,8 @@ and Ubuntu Linux.
 
 ## Start with the repository
 
-1. Find the repository root and read `docs/v0.1-scope.md` and
-   `docs/benchmarking.md` completely.
+1. Find the repository root and read `docs/v0.1-scope.md`,
+   `docs/hardware-discovery.md`, and `docs/benchmarking.md` completely.
 2. Inspect the current branch, status, and available scripts.
 3. Do not claim support for a platform outside the documented matrix.
 4. Preserve an existing deployment unless the owner explicitly asks to replace
@@ -52,6 +52,9 @@ needed for model selection:
 Do not include usernames, addresses, hostnames, serial numbers, private paths,
 credentials, or unrelated process arguments in a committed report. Store raw
 inventory under `inventory/private/` and commit only a sanitised summary.
+
+Use `hardware/inventory.py` for supported nodes rather than assembling a broad
+diagnostic command that might expose unrelated environment or process data.
 
 If SSH is not ready, explain the manual bootstrap steps. Never ask the owner to
 paste a private key into chat or commit one to the repository.
