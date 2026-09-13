@@ -1,0 +1,29 @@
+[Unit]
+Description=Household AI promoted llama.cpp model
+Documentation=https://github.com/rogerchappel/household-ai
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.config/household-ai/inference.env
+ExecStart=/usr/bin/env ${LLAMA_SERVER_BIN} \
+  --model ${MODEL_PATH} \
+  --alias ${MODEL_ALIAS} \
+  --host 127.0.0.1 \
+  --port ${MODEL_PORT} \
+  --ctx-size ${MODEL_CONTEXT} \
+  --parallel ${MODEL_PARALLEL} \
+  --n-gpu-layers ${MODEL_GPU_LAYERS} \
+  --jinja \
+  --api-key-file %h/.config/household-ai/inference-api-keys \
+  --no-webui
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=15min
+TimeoutStopSec=2min
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

@@ -78,6 +78,8 @@ bash scripts/validate-repository.sh
 ```
 
 After a model and inference runtime have been selected, follow the
+[model promotion workflow](docs/model-promotion.md) to create its persistent,
+authenticated, tailnet-only endpoint. Then use the
 [version 0.1 deployment guide](docs/deployment.md) to configure the private
 multi-user web interface and VPN-routed search.
 

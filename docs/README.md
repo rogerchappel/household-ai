@@ -9,7 +9,9 @@ Start with the documents that match the stage of your setup:
    quantisations, dense models, and mixture-of-experts models.
 4. [Model quality evaluations](evaluations.md) — test coding, household tasks,
    tool use, and independent judgment.
-5. [Deployment](deployment.md) — configure the private multi-user control plane
+5. [Model promotion](model-promotion.md) — turn the accepted benchmark settings
+   into a persistent, authenticated, tailnet-only model service.
+6. [Deployment](deployment.md) — configure the private multi-user control plane
    after selecting a model.
 
 Supporting project documents:

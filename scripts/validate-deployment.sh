@@ -52,7 +52,8 @@ if [[ ${#compose[@]} -gt 0 ]]; then
     WEBUI_URL=https://household-ai.example.invalid \
     WEBUI_SECRET_KEY=placeholder-webui-secret \
     SEARXNG_SECRET=placeholder-search-secret \
-    INFERENCE_API_BASE_URL=http://host.docker.internal:18080/v1 \
+    INFERENCE_API_BASE_URL=https://model-host.example.invalid:8443/v1 \
+    INFERENCE_NO_PROXY_HOST=model-host.example.invalid \
     INFERENCE_API_KEY=placeholder-inference-key \
     VPN_SERVICE_PROVIDER=surfshark \
     VPN_TYPE=wireguard \
