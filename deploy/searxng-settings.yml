@@ -1,0 +1,20 @@
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: Household Search
+  enable_metrics: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: en
+  formats:
+    - html
+    - json
+
+server:
+  secret_key: overridden-by-SEARXNG_SECRET
+  limiter: false
+  public_instance: false
+  image_proxy: true
