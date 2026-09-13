@@ -20,3 +20,4 @@ Supporting project documents:
 - [Contributing guide](../CONTRIBUTING.md)
 - [Security policy](../SECURITY.md)
 - [Agent instructions](../AGENTS.md)
+- [StackForge scaffold record](stackforge.md)

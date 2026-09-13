@@ -81,6 +81,16 @@ After a model and inference runtime have been selected, follow the
 [version 0.1 deployment guide](docs/deployment.md) to configure the private
 multi-user web interface and VPN-routed search.
 
+## Project documentation
+
+The [documentation index](docs/README.md) links the complete version 0.1
+workflow. Planned work is tracked in the [roadmap](ROADMAP.md), and notable
+changes are recorded in the [changelog](CHANGELOG.md).
+
+Contributions are welcome; read the [contributing guide](CONTRIBUTING.md) and
+[security policy](SECURITY.md) before opening a pull request or vulnerability
+report.
+
 ## Repository layout
 
 ```text
