@@ -92,7 +92,7 @@ services:
       WEB_SEARCH_TRUST_ENV: "true"
       http_proxy: http://search-vpn:8888
       https_proxy: http://search-vpn:8888
-      no_proxy: 127.0.0.1,localhost,search-vpn,searxng,host.docker.internal
+      no_proxy: 127.0.0.1,localhost,search-vpn,searxng,host.docker.internal,${INFERENCE_NO_PROXY_HOST:?set INFERENCE_NO_PROXY_HOST in .env}
       DEFAULT_MODEL_METADATA: '{"capabilities":{"web_search":true,"citations":true,"status_updates":true},"defaultFeatureIds":["web_search"]}'
       ENABLE_EVALUATION_ARENA_MODELS: "false"
       ENABLE_ADMIN_CHAT_ACCESS: "false"

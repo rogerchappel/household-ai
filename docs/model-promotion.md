@@ -112,9 +112,14 @@ private configuration to:
 
 ```dotenv
 INFERENCE_API_BASE_URL=https://MODEL_HOST.TAILNET_NAME.ts.net:8443/v1
+INFERENCE_NO_PROXY_HOST=MODEL_HOST.TAILNET_NAME.ts.net
 INFERENCE_API_KEY=use-the-dedicated-openwebui-key
 DEFAULT_MODELS=household-primary
 ```
+
+`INFERENCE_NO_PROXY_HOST` is the hostname without a scheme, port, or path. It
+keeps model traffic on Tailscale instead of sending it through the VPN proxy
+reserved for internet search.
 
 Validate the Compose render before restarting anything. After an approved
 restart, go to **Admin Settings → Connections → OpenAI**, confirm the URL and
