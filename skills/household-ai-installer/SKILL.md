@@ -1,6 +1,6 @@
 ---
 name: household-ai-installer
-description: Inventory Apple Silicon macOS and Ubuntu Linux computers over SSH, benchmark compatible local LLM candidates, explain the best model and runtime for each role, and guide a reviewed Household AI deployment. Use when setting up or reassessing a private household AI system with the Household AI repository.
+description: Inventory Apple Silicon macOS and Ubuntu Linux computers over SSH, benchmark compatible local LLM candidates, promote an accepted winner into a persistent private model service, and guide a reviewed Household AI deployment. Use when setting up or reassessing a private household AI system with the Household AI repository.
 ---
 
 # Household AI installer
@@ -109,15 +109,49 @@ Throughput is not sufficient evidence. Prefer the model that best balances:
 Ask the owner to approve the recommendation before installing or replacing a
 long-running service.
 
+## Promote the accepted model
+
+Promotion is a separate phase with a new approval boundary. It converts the
+accepted benchmark configuration into a stable service; it must not silently
+retune context, concurrency, GPU offload, or the chat template.
+
+After the owner accepts a model and runtime:
+
+1. Read `docs/model-promotion.md` completely.
+2. Record the artifact hash, runtime revision, accepted settings, stable alias,
+   intended clients, API port, and rollback target.
+3. For the verified Ubuntu llama.cpp path, customise the files under
+   `deploy/model-service/` in private host configuration. Do not put real model
+   paths or keys in Git.
+4. Request approval before installing the service or changing Tailscale.
+5. Start the service without enabling it at boot.
+6. Verify health, authenticated model discovery, the stable alias, one ordinary
+   completion, and a role-specific quality test.
+7. Expose it with Tailscale Serve, never Funnel, and test from a second tailnet
+   device.
+8. Connect Open WebUI and any coding client with separate revocable keys where
+   practical.
+9. Request a final approval before enabling restart recovery or replacing the
+   prior service.
+
+Treat an SSH tunnel as a temporary diagnostic path. The completed setup should
+use a stable tailnet-only HTTPS endpoint so laptops work without a terminal
+session.
+
+For macOS or a non-llama.cpp runtime, require the same promotion contract but
+label service installation experimental until its launch and reboot behaviour
+has been tested on that platform.
+
 ## Deploy in reviewed stages
 
 Make the smallest reversible change, verify it, and record rollback before
 continuing. Authentication, authorization, firewall, VPN, remote-access,
 telemetry, boot, and persistent-data changes always require explicit approval.
 
-At completion, verify the inference API, web interface, permitted users, web
-search when enabled, restart recovery, backup path, and rollback procedure.
-Return a plain-English handoff plus a technical review pack.
+At completion, verify the promoted inference endpoint, stable model alias,
+web interface, coding client when requested, permitted users, web search when
+enabled, restart recovery, backup path, and rollback procedure. Return a
+plain-English handoff plus a technical review pack.
 
 For the supported control-plane path, read `docs/deployment.md` completely and
 validate `deploy/compose.yml` before requesting approval to start services.

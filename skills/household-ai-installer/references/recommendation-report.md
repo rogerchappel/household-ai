@@ -36,8 +36,28 @@ In plain language, explain:
 5. which conclusions came from measurement and which remain assumptions; and
 6. the estimated downloads, storage use, and services to be changed.
 
+## Promotion profile
+
+Complete this only for a candidate the owner has accepted. Keep real hostnames,
+paths, and credentials in ignored private records.
+
+| Field | Accepted value |
+| --- | --- |
+| Role and stable alias |  |
+| Model source, revision, and artifact hash |  |
+| Runtime and revision |  |
+| Context, parallel slots, batch, and offload |  |
+| Anonymised model host |  |
+| Private API and Tailscale ports |  |
+| Open WebUI connection | planned / verified / not requested |
+| Coding-client connection | planned / verified / not requested |
+| Boot recovery | planned / verified / deferred |
+| Rollback target |  |
+
 ## Approval checkpoint
 
 End the pre-deployment report with the exact proposed changes, their rollback,
-and the decisions the owner must approve. Do not proceed merely because the
-benchmark produced a winner.
+and the decisions the owner must approve. Model acceptance, initial service
+start, private-network exposure, client replacement, and boot enablement are
+separate decisions. Do not proceed merely because the benchmark produced a
+winner.
