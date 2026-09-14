@@ -13,6 +13,8 @@ Start with the documents that match the stage of your setup:
    into a persistent, authenticated, tailnet-only model service.
 6. [Deployment](deployment.md) — configure the private multi-user control plane
    after selecting a model.
+7. [Coding clients](coding-clients.md) — connect OpenCode, OpenClaw, Claude Code,
+   and other compatible tools to the promoted model API.
 
 Supporting project documents:
 
