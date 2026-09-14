@@ -93,6 +93,12 @@ Contributions are welcome; read the [contributing guide](CONTRIBUTING.md) and
 [security policy](SECURITY.md) before opening a pull request or vulnerability
 report.
 
+## License
+
+Household AI is available under the [Apache License 2.0](LICENSE). Commercial
+use, modification, and redistribution are permitted subject to the license
+terms.
+
 ## Repository layout
 
 ```text
