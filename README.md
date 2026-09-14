@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-v0.1%20preview-orange.svg)](ROADMAP.md)
 
+![Household AI connects private local computers and household devices](assets/household-ai-social.png)
+
 **Turn the computers you already own into a private AI service for your whole
 household—selected by measurement, not model hype.**
 
