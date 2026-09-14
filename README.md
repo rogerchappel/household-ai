@@ -1,119 +1,122 @@
 # Household AI
 
-Household AI is a benchmark-first toolkit for turning computers you already own
-into a private, useful AI service for everyone in the household.
+[![Validate](https://github.com/rogerchappel/household-ai/actions/workflows/validate.yml/badge.svg)](https://github.com/rogerchappel/household-ai/actions/workflows/validate.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-v0.1%20preview-orange.svg)](ROADMAP.md)
 
-Instead of guessing which local model will fit, the project inventories each
-machine, benchmarks realistic candidates, compares performance and behaviour,
-and records why a particular model and runtime were selected. The chosen model
-can then be exposed through an OpenAI-compatible API for chat interfaces and
-coding tools.
+**Turn the computers you already own into a private AI service for your whole
+household—selected by measurement, not model hype.**
 
-## Version 0.1 scope
+Household AI inventories compatible machines, benchmarks local models on the
+actual hardware, evaluates useful behaviour, and helps promote the winner into
+a private service. The result can support everyday chat, live web research,
+coding tools, and separate assistants for different people or purposes.
 
-The first release intentionally covers one tested deployment shape:
+It is open source under Apache 2.0, including commercial use.
 
-- an Apple Silicon Mac using MLX or llama.cpp with Metal;
-- an Ubuntu Linux machine using llama.cpp with Vulkan;
-- SSH-based inventory and benchmark orchestration;
-- dense and mixture-of-experts model comparisons;
-- chat, coding, and independent-judgment evaluations;
-- a multi-user Open WebUI deployment;
-- web search through SearXNG with optional VPN egress;
-- private remote access through Tailscale; and
-- backup, health-check, context-management, and restart guidance.
+## What it builds
 
-Windows, Home Assistant, wake-word hardware, and additional tool integrations
-are future work. They are not part of the initial support promise.
-
-## Tested reference hardware
-
-The initial reference deployment uses the following anonymised hardware. These
-results are examples, not universal performance claims.
-
-| Node | Hardware | Memory | Runtime paths evaluated | Intended role |
-| --- | --- | ---: | --- | --- |
-| Apple node | Apple M4, 10-core CPU and 10-core GPU | 24 GB unified | MLX, llama.cpp Metal | General chat, review, smaller models |
-| Linux node | Ryzen 9 8945HS, Radeon 780M | 64 GB system | llama.cpp Vulkan | Larger MoE models, primary inference |
-
-See [the example benchmark report](examples/reference-benchmark.md) for the
-kind of evidence the selection process should produce.
-
-## Project principles
-
-- Measure the actual machine instead of selecting from model marketing alone.
-- Keep enough memory headroom for the operating system and concurrent users.
-- Evaluate answer quality and behaviour as well as tokens per second.
-- Treat model output, downloaded content, and web pages as untrusted input.
-- Keep credentials, model weights, raw chats, and private knowledge out of Git.
-- Require human approval for security-sensitive or destructive operations.
-- Clearly distinguish tested, expected, experimental, and unsupported paths.
-
-## Status
-
-This repository is being assembled from a working private deployment. The first
-milestone is a reproducible benchmark and a documented deployment for the two
-tested platforms. It is not yet a one-command installer.
-
-## First useful commands
-
-Collect a privacy-safe local inventory:
-
-```bash
-python3 hardware/inventory.py --label apple-01
+```mermaid
+flowchart LR
+    A[Mac or Linux machines] --> B[Inventory + benchmark]
+    B --> C[Measured model choice]
+    C --> D[Private OpenAI-compatible API]
+    D --> E[Open WebUI]
+    D --> F[Coding clients]
+    E --> G[Household accounts + assistants]
+    E --> H[VPN-routed web search]
+    I[Tailscale] --> D
+    I --> E
 ```
 
-Inspect the benchmark and evaluation workflows before downloading models:
+The reference setup keeps inference and the web interface on your own machines.
+Tailscale provides private remote access without opening the service to the
+public internet. Optional SearXNG search can send external traffic through a
+VPN while local conversations remain local.
 
-```bash
-benchmarks/benchmark-llama.sh --help
-benchmarks/benchmark-mlx.sh --help
-python3 evaluations/run_eval.py --help
-```
+## Who it is for
 
-Validate the repository:
+- Households that want one useful private AI service rather than a developer
+  demo on each computer.
+- People with Apple Silicon Macs or Ubuntu mini PCs who want evidence about
+  which model their hardware can run well.
+- Developers who want the same local model available to OpenAI-compatible
+  coding clients.
+- Technical helpers using Codex, Claude Code, or a similar coding agent to guide
+  a less technical owner through a reviewed setup.
 
-```bash
-bash scripts/validate-repository.sh
-```
+## Tested version 0.1 path
 
-After a model and inference runtime have been selected, follow the
-[model promotion workflow](docs/model-promotion.md) to create its persistent,
-authenticated, tailnet-only endpoint. Then use the
-[version 0.1 deployment guide](docs/deployment.md) to configure the private
-multi-user web interface and VPN-routed search.
+The first release deliberately supports a small surface area:
 
-## Project documentation
+| Platform | Tested runtime | Role | Status |
+| --- | --- | --- | --- |
+| Apple M4, 24 GB unified memory | MLX and llama.cpp Metal | Chat, review, smaller models | Verified |
+| Ubuntu 24.04, Ryzen 9 8945HS, Radeon 780M, 64 GB RAM | llama.cpp Vulkan | Larger MoE models, primary inference | Verified |
+| Other Apple Silicon or similar Ubuntu AMD systems | Same paths | Hardware-dependent | Expected |
+| Windows, NVIDIA, Intel accelerators | — | Future work | Not supported in v0.1 |
 
-The [documentation index](docs/README.md) links the complete version 0.1
-workflow. Planned work is tracked in the [roadmap](ROADMAP.md), and notable
-changes are recorded in the [changelog](CHANGELOG.md).
+Our anonymised reference tests favored a quantized 30B-class mixture-of-experts
+coding model on the 64 GB Linux node: it kept most weights in system memory and
+used the integrated GPU where useful. That result is an example, not a universal
+recommendation—context size, concurrency, thermals, quality, and memory headroom
+all affect the right choice. See the
+[reference benchmark](examples/reference-benchmark.md).
 
-Contributions are welcome; read the [contributing guide](CONTRIBUTING.md) and
-[security policy](SECURITY.md) before opening a pull request or vulnerability
-report.
+## Start here
 
-## License
+Household AI is currently an agent-assisted preview, not an unattended
+one-command installer. You stay in control of package installation, model
+downloads, authentication, networking, and service changes.
 
-Household AI is available under the [Apache License 2.0](LICENSE). Commercial
-use, modification, and redistribution are permitted subject to the license
-terms.
+1. Read the [getting-started guide](docs/getting-started.md).
+2. Run the local, read-only preflight check:
 
-## Repository layout
+   ```bash
+   bash scripts/preflight.sh
+   ```
+
+3. Give the included
+   [`household-ai-installer` skill](skills/household-ai-installer/SKILL.md) to
+   your coding agent, or follow the documentation manually.
+4. Inventory each machine, shortlist models, and approve downloads.
+5. Benchmark speed, memory fit, quality, and independent judgment.
+6. Promote the accepted configuration, then deploy the private household UI.
+
+The full workflow is indexed in [the documentation](docs/README.md).
+
+## What is included
 
 ```text
-benchmarks/   Reproducible performance runners
-deploy/       Sanitised Open WebUI and private-search control plane
-docs/         Scope, architecture, setup, and operating guidance
-evals/        Synthetic chat and coding evaluation cases
-evaluations/  Validation and local evaluation runners
-examples/     Sanitised inventories and benchmark reports
+hardware/     Privacy-safe machine inventory
+benchmarks/   Comparable llama.cpp and MLX benchmark runners
+evals/        Synthetic coding and independent-judgment cases
+evaluations/  Local evaluation and result validation
+deploy/       Open WebUI, SearXNG, VPN, and model-service templates
+examples/     Sanitised reference evidence
 skills/       Agent-assisted installation workflow
+docs/         Setup, safety, promotion, and operations guidance
 ```
 
-## Safety boundary
+## Privacy and safety boundary
 
-The installation workflow may inspect remote hardware and propose commands, but
-it must not silently change operating systems, authentication, firewall rules,
-VPN settings, production services, or persistent data. Those actions require a
-clear plan and explicit approval from the system owner.
+The repository contains templates and anonymised examples—not model weights,
+API keys, VPN credentials, household chats, private prompts, user mappings, or
+knowledge bases. Treat model output and web content as untrusted. Security,
+authentication, firewall, VPN, boot-service, destructive, and persistent-data
+changes require explicit owner review.
+
+Use Tailscale **Serve**, not Funnel, for private access. Never commit a completed
+`.env` file or a private SSH key.
+
+## Project status
+
+Version 0.1 is a public preview being extracted from a working two-machine
+deployment. The benchmark, evaluation, promotion, and deployment paths exist;
+clean-machine onboarding and recovery coverage are still being hardened before
+the first tagged release. See the [roadmap](ROADMAP.md) and
+[changelog](CHANGELOG.md).
+
+Contributions and commercial use are welcome. Please read
+[CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and the
+[Apache 2.0 license](LICENSE).
