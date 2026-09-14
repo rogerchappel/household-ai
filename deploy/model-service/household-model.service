@@ -15,6 +15,8 @@ ExecStart=/usr/bin/env ${LLAMA_SERVER_BIN} \
   --ctx-size ${MODEL_CONTEXT} \
   --parallel ${MODEL_PARALLEL} \
   --n-gpu-layers ${MODEL_GPU_LAYERS} \
+  --cache-type-k ${MODEL_CACHE_TYPE_K} \
+  --cache-type-v ${MODEL_CACHE_TYPE_V} \
   --jinja \
   --api-key-file %h/.config/household-ai/inference-api-keys \
   --no-webui

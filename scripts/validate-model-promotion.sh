@@ -27,9 +27,23 @@ if rg -q -- '--host (0\.0\.0\.0|::)' "$service"; then
   echo "model service must not bind to every interface" >&2
   exit 1
 fi
-for required_flag in --alias --jinja --api-key-file --no-webui; do
+for required_flag in \
+  --alias \
+  --jinja \
+  --api-key-file \
+  --cache-type-k \
+  --cache-type-v \
+  --no-webui; do
   if ! rg -q -- "$required_flag" "$service"; then
     echo "model service is missing $required_flag" >&2
+    exit 1
+  fi
+done
+
+for variable in MODEL_CACHE_TYPE_K MODEL_CACHE_TYPE_V; do
+  if ! rg -q "^${variable}=(f16|bf16|q8_0|q4_0|q4_1)$" \
+    deploy/model-service/inference.env.example; then
+    echo "inference environment is missing a supported $variable default" >&2
     exit 1
   fi
 done

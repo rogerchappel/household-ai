@@ -26,6 +26,24 @@ comparisons. The Apple-native comparison used a pinned MLX-LM environment.
 Settings: 512 prompt tokens, 128 generated tokens, three repetitions, full
 accelerator offload, and automatic flash attention where applicable.
 
+## Long-context service test
+
+Short throughput tests did not predict the behaviour of a coding agent whose
+bootstrap prompt exceeded 30,000 tokens. A separate sanitized service test used
+the Linux node and the selected MoE model:
+
+| Total context | Slots | Per-slot context | KV cache | Result |
+| ---: | ---: | ---: | --- | --- |
+| 32,768 | 2 | 16,384 | F16 | Agent bootstrap rejected as oversized |
+| 65,536 | 1 | 65,536 | F16 | Fit, but long-context prefill was impractically slow |
+| 65,536 | 1 | 65,536 | Q8_0 | Completed a 34,627-token exact-output request in 279 seconds client time |
+| 131,072 | 2 | 65,536 | Q8_0 | Started without swap and completed two concurrent short requests in about 4.5 seconds each |
+
+The result is specific to this model, runtime revision, and integrated GPU. It
+shows why context pool size, slot count, KV-cache type, end-to-end agent prompts,
+and concurrent use must be benchmarked together. It is not a universal
+recommendation to enable Q8_0 or 131,072 tokens.
+
 ## Programming evaluation
 
 | Node | Candidate | Mean task latency | Completed | Strict passes | Interpretation |
