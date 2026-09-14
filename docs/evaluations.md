@@ -20,6 +20,7 @@ The cases are synthetic and contain no household conversations.
 ```bash
 python3 evaluations/validate_eval.py evals/independent-judgment.jsonl
 python3 evaluations/validate_eval.py evals/coding.jsonl
+python3 evaluations/validate_eval.py evals/assistant-prompts.jsonl
 ```
 
 ## Capture a run
@@ -47,6 +48,22 @@ avoids exposing an unauthenticated inference endpoint to the network.
 
 Raw responses are written beneath the ignored `results/raw/` directory. Do not
 commit raw outputs, local system prompts, or household conversations.
+
+To exercise a starter assistant's system prompt against the shared synthetic
+boundary cases, provide both files explicitly:
+
+```bash
+python3 evaluations/run_eval.py \
+  --endpoint http://127.0.0.1:8080 \
+  --model candidate-name \
+  --label lifestyle-wellbeing \
+  --cases evals/assistant-prompts.jsonl \
+  --system-prompt prompts/optional/lifestyle-wellbeing.md
+```
+
+Score only cases relevant to that assistant. Health, emergency, privacy, and
+coercion cases require human review; a fluent answer is not evidence that it is
+safe.
 
 ## Scoring
 

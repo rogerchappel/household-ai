@@ -8,18 +8,24 @@ the model into memory.
 The labels below use “assistant” for the household-facing preset and “base
 model” for the promoted inference endpoint.
 
-## A small two-person starting set
+## Starter set
 
 Begin with fewer assistants than you think you need:
 
 | Assistant | Purpose | Suggested access |
 | --- | --- | --- |
-| Home Assistant | General questions, household admin, cited web research | Both household members |
-| Learning Guide | Homeschool planning and age-appropriate explanations | Both household members |
-| Shopping Research | Compare products, prices, and sources without inventing current facts | Both household members |
-| Developer | Coding and technical work with a larger context budget | Developer only |
-| Private Journal | Personal reflection with no shared knowledge or memory | Its owner only |
-| Relationship Reflection | Structured communication prompts, not diagnosis or crisis care | Create separate private or mutually shared versions deliberately |
+| Household Assistant | General questions, household admin, and cited web research | Intended household members |
+| Research & Shopping | Compare products, prices, and sources without inventing current facts | Intended household members |
+| Technical Assistant | Coding and technical work with a larger context budget | Optional technical users |
+| Personal Reflection | Private journaling and structured thinking without diagnosis | Its owner only |
+| Communication Coach | Neutral communication preparation, not therapy or crisis care | Private or mutually shared deliberately |
+| Lifestyle & Wellbeing Coach | Habits and reputable general health information, not clinical care | Optional; normally individual |
+
+The first two are useful defaults. Add optional assistants only when someone
+wants their narrower behaviour. The reusable system prompts live in the
+[starter prompt pack](../prompts/README.md). Education and homeschooling are
+deliberately not separate defaults; households can layer their own learning
+preferences privately onto the Household Assistant.
 
 Do not treat a system prompt as a confidentiality boundary. Privacy comes from
 resource access control, separate accounts, and careful knowledge/tool grants.
@@ -72,7 +78,7 @@ A manageable two-person layout is:
   permissions.
 - **P-Web-Search** — a permission-only group granting web search; hidden from
   ordinary sharing menus.
-- **Developer** — a sharing group containing only the developer.
+- **Technical** — an optional sharing group containing intended technical users.
 - Direct user grants — for personal assistants and knowledge that should not be
   shared even with a broad household group.
 
@@ -86,8 +92,8 @@ Example resource matrix:
 | Resource | Visibility | Grant |
 | --- | --- | --- |
 | Generic base model | Available, but hidden | Intended household users |
-| Home Assistant preset | Private | Household: Read |
-| Developer preset | Private | Developer: Read |
+| Household Assistant preset | Private | Household: Read |
+| Technical Assistant preset | Private | Technical: Read |
 | Shared household knowledge | Private | Household: Read; admin: Write |
 | Personal knowledge | Private | Owner: Read; owner/admin as deliberate Write |
 | Search tool/capability | Private or feature-gated | P-Web-Search |
