@@ -18,5 +18,7 @@ semantic versioning once versioned releases begin.
 - StackForge-derived contribution, security, governance, and planning files.
 - An end-to-end model promotion workflow with persistent llama.cpp, Tailscale,
   Open WebUI, and OpenCode configuration templates.
+- Shared and private assistant, knowledge, tool, and RBAC guidance.
+- Context sizing, built-in compaction, and incomplete tool-turn diagnostics.
 
 No versioned release has been published yet.

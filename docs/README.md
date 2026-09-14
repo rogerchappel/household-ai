@@ -15,10 +15,14 @@ Start with the documents that match the stage of your setup:
    into a persistent, authenticated, tailnet-only model service.
 7. [Deployment](deployment.md) — configure the private multi-user control plane
    after selecting a model.
-7. [Coding clients](coding-clients.md) — connect OpenCode, OpenClaw, Claude Code,
+8. [Coding clients](coding-clients.md) — connect OpenCode, OpenClaw, Claude Code,
    and other compatible tools to the promoted model API.
-8. [Backup and restore](backup-restore.md) — create and rehearse a consistent,
+9. [Backup and restore](backup-restore.md) — create and rehearse a consistent,
    isolated Open WebUI recovery archive.
+10. [Household assistants and access](assistants-and-access.md) — create shared
+   and private assistants with explicit resource grants.
+11. [Context management](context-management.md) — size context, configure
+   compaction, and diagnose incomplete tool turns.
 
 Supporting project documents:
 
