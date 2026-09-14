@@ -17,6 +17,8 @@ Start with the documents that match the stage of your setup:
    after selecting a model.
 7. [Coding clients](coding-clients.md) — connect OpenCode, OpenClaw, Claude Code,
    and other compatible tools to the promoted model API.
+8. [Backup and restore](backup-restore.md) — create and rehearse a consistent,
+   isolated Open WebUI recovery archive.
 
 Supporting project documents:
 
