@@ -18,7 +18,7 @@ host:
 | --- | --- |
 | Model artifact and hash | Accepted benchmark run |
 | Runtime binary and revision | Accepted benchmark run |
-| Context, parallel slots, and GPU offload | Stable finalist configuration |
+| Context, parallel slots, KV-cache types, and GPU offload | Stable finalist configuration |
 | Stable model alias | Household role, such as `household-primary` |
 | Model host | Device that completed the accepted run |
 | API and Tailscale ports | Reviewed deployment plan |
@@ -63,6 +63,18 @@ install -m 644 deploy/model-service/household-model.service \
 Edit `inference.env` so the binary, model path, alias, and runtime settings
 exactly match the accepted benchmark. Do not increase context or concurrency as
 part of promotion; tune them in a new benchmark run.
+
+`MODEL_CONTEXT` is the total context pool. With independent slots, the
+approximate per-request capacity is `MODEL_CONTEXT / MODEL_PARALLEL`; confirm
+the exact value reported by the running server. Client configurations must
+advertise that per-slot value rather than the total pool.
+
+The conservative KV-cache type is `f16`. Quantized cache types such as `q8_0`
+can reduce accelerator-visible memory and may improve throughput on
+memory-bandwidth-limited hardware, but they can also change quality or backend
+compatibility. Benchmark key and value cache types with the selected model,
+longest intended prompt, tool use, concurrent requests, and swap monitoring
+before promotion.
 
 Create `~/.config/household-ai/inference-api-keys` with mode `600`. llama.cpp
 accepts one key per line, allowing separate revocable credentials for Open
@@ -139,6 +151,9 @@ limit match the promoted service. Do not replace unrelated providers.
 In OpenCode, run `/connect`, choose **Other**, use provider ID `household`, and
 enter the dedicated coding-client key. Then select
 `household/household-primary` with `/models`.
+
+See [coding clients](coding-clients.md) for OpenClaw, Claude Code, generic
+OpenAI-compatible clients, credential handling, and context troubleshooting.
 
 Other clients should use the same HTTPS base URL, stable model alias, and their
 own API key when they support one.

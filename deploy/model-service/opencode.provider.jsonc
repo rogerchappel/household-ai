@@ -12,8 +12,8 @@
         "household-primary": {
           "name": "Household primary model",
           "limit": {
-            "context": 32768,
-            "output": 8192
+            "context": 16384,
+            "output": 4096
           }
         }
       }
