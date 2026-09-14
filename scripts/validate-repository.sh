@@ -32,6 +32,9 @@ required_files=(
   evaluations/validate_eval.py
   hardware/inventory.py
   scripts/validate-deployment.sh
+  scripts/backup-openwebui.sh
+  scripts/restore-openwebui.sh
+  scripts/validate-backup-restore.sh
   scripts/validate-model-promotion.sh
   skills/household-ai-installer/SKILL.md
 )
@@ -52,6 +55,7 @@ python3 -m py_compile \
 python3 evaluations/validate_eval.py evals/independent-judgment.jsonl
 python3 evaluations/validate_eval.py evals/coding.jsonl
 bash scripts/validate-deployment.sh
+bash scripts/validate-backup-restore.sh
 bash scripts/validate-model-promotion.sh
 
 python3 - <<'PY'
