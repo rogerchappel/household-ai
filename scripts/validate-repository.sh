@@ -31,12 +31,20 @@ required_files=(
   evaluations/run_eval.py
   evaluations/validate_eval.py
   hardware/inventory.py
+  prompts/README.md
+  prompts/core/household-assistant.md
+  prompts/core/research-and-shopping.md
+  prompts/optional/technical-assistant.md
+  prompts/optional/personal-reflection.md
+  prompts/optional/communication-coach.md
+  prompts/optional/lifestyle-wellbeing.md
   scripts/preflight.sh
   scripts/validate-deployment.sh
   scripts/backup-openwebui.sh
   scripts/restore-openwebui.sh
   scripts/validate-backup-restore.sh
   scripts/validate-model-promotion.sh
+  scripts/validate-prompts.sh
   skills/household-ai-installer/SKILL.md
 )
 for path in "${required_files[@]}"; do
@@ -59,6 +67,7 @@ python3 evaluations/validate_eval.py evals/coding.jsonl
 bash scripts/validate-deployment.sh
 bash scripts/validate-backup-restore.sh
 bash scripts/validate-model-promotion.sh
+bash scripts/validate-prompts.sh
 
 python3 - <<'PY'
 from pathlib import Path
