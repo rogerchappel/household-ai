@@ -89,10 +89,12 @@ docker compose --env-file .env -f deploy/compose.yml ps
 curl --fail http://127.0.0.1:3000/api/config
 ```
 
-Create the intended administrator and household accounts through Open WebUI.
-After onboarding, disable further sign-ups in the Admin UI. Open WebUI persists
-administrative settings in its database, and persisted values take precedence
-over later environment-file changes.
+Create the intended administrator account through Open WebUI. The first account
+on a fresh instance becomes the administrator. Onboard ordinary household
+accounts only after private HTTPS access works.
+
+Open WebUI persists administrative settings in its database, and persisted
+values take precedence over later environment-file changes.
 
 Test an ordinary completion before enabling web search. Then ask for current
 information and verify that the response contains sources rather than an
@@ -130,6 +132,58 @@ Use Serve, not Funnel: Funnel would make the service publicly reachable.
 
 Set `WEBUI_URL` to the resulting private HTTPS URL before configuring OAuth or
 other integrations that depend on callback URLs.
+
+## Onboard household members
+
+Give each person their own account rather than sharing the administrator login.
+Keep administrator access for maintainers; normal household use should happen
+through the `User` role and the resource grants described in
+[Household assistants and access control](assistants-and-access.md).
+
+For a small trusted household:
+
+1. Connect the person's device to the tailnet and open the private HTTPS Open
+   WebUI address.
+2. As the administrator, temporarily enable **New Sign Ups** under **Settings >
+   Admin > Authentication**. Keep the default new-user role as `pending`.
+3. Let the person create their own account. Do not create or exchange a shared
+   household password.
+4. In **Admin Panel > Users**, approve the account as a normal `User`, add its
+   intended groups, and grant access to the base model and assistant presets.
+5. Disable **New Sign Ups** again.
+6. Sign in on the person's device and verify the experience as that user. An
+   administrator account cannot prove that model, knowledge, and tool isolation
+   works.
+
+Do not leave registration open merely because the login page is tailnet-only.
+Use strong, unique passwords and preserve the Open WebUI data volume in the
+encrypted backup process.
+
+### Add it to a phone home screen
+
+The private site can be installed as a home-screen web app, giving household
+members an app-like icon and launch experience without publishing it to an app
+store.
+
+On iPhone or iPad with Safari:
+
+1. Open the private HTTPS Open WebUI address in Safari.
+2. Tap **Share**, then **Add to Home Screen**.
+3. Enable **Open as Web App** and tap **Add**.
+
+With Chrome on iPhone or iPad, open the address, tap **Share**, choose **Add to
+Home Screen**, confirm the name, and tap **Add**. Depending on the site and
+browser version, the shortcut may open as a web app or in the browser.
+
+Always save the Tailscale HTTPS address, not the loopback or raw HTTP address.
+The device must remain connected to the tailnet. HTTPS is also required for
+secure browser capabilities such as microphone access; the user must still
+grant microphone permission when prompted.
+
+See the current [Open WebUI account setup](https://docs.openwebui.com/getting-started/quick-start/),
+[Apple web-app instructions](https://support.apple.com/guide/iphone/iphea86e5236/ios),
+and [Chrome iOS shortcut instructions](https://support.google.com/chrome/answer/15085120?co=GENIE.Platform%3DiOS&hl=en)
+if the interface changes.
 
 ## Restart behaviour
 

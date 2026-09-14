@@ -104,7 +104,9 @@ Do not call the setup complete until another tailnet device can:
 2. complete a normal chat;
 3. use a permitted assistant without seeing private assistants or knowledge;
 4. return cited results for a current web query when search is enabled; and
-5. reconnect after a controlled restart.
+5. reconnect after a controlled restart;
+6. launch Open WebUI from a phone home-screen icon over private HTTPS; and
+7. request microphone access successfully when voice input is intended.
 
 Also verify an isolated backup restoration before relying on the system.
 
