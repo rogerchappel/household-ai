@@ -31,6 +31,7 @@ required_files=(
   evaluations/run_eval.py
   evaluations/validate_eval.py
   hardware/inventory.py
+  scripts/preflight.sh
   scripts/validate-deployment.sh
   scripts/validate-model-promotion.sh
   skills/household-ai-installer/SKILL.md
@@ -45,6 +46,7 @@ done
 git diff --check
 bash -n benchmarks/benchmark-llama.sh
 bash -n benchmarks/benchmark-mlx.sh
+bash -n scripts/preflight.sh
 python3 -m py_compile \
   evaluations/run_eval.py \
   evaluations/validate_eval.py \
