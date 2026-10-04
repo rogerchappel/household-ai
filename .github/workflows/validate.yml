@@ -33,5 +33,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Validate repository
-        run: bash scripts/validate-repository.sh
+      - name: Validate repository and safe checks
+        run: |
+          bash scripts/validate-repository.sh
+          python3 evaluations/validate_eval.py evals/independent-judgment.jsonl
+          python3 evaluations/validate_eval.py evals/coding.jsonl
+          bash scripts/validate-backup-restore.sh
+          bash scripts/validate-deployment.sh
+          bash scripts/validate-model-promotion.sh
+          bash scripts/validate-prompts.sh
